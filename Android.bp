@@ -300,6 +300,17 @@ cc_library_shared {
     vendor: true,
 }
 
+cc_library_shared {
+    name: "libcodec2_shim",
+    shared_libs: [
+        "libcodec2_vndk",
+    ],
+    srcs: [
+        "libcodec2/C2Fence.cpp",
+    ],
+    vendor: true,
+}
+
 cc_library {
     name: "libcutils_shim",
     shared_libs: [
