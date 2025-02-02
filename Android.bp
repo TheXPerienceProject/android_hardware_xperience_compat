@@ -225,6 +225,33 @@ cc_library_shared {
 }
 
 cc_library_shared {
+    name: "android.hardware.sensors@1.0-convert-shared",
+    shared_libs: ["libhidlbase"],
+    whole_static_libs: ["android.hardware.sensors@1.0-convert"],
+    vendor_available: true,
+}
+
+cc_library_shared {
+    name: "android.hidl.base@1.0",
+    shared_libs: ["libhidlbase"],
+    system_ext_specific: true,
+    vendor_available: true,
+}
+
+cc_library_shared {
+    name: "android.hidl.manager@1.0",
+    shared_libs: ["libhidlbase"],
+    system_ext_specific: true,
+    vendor_available: true,
+}
+
+cc_library_shared {
+    name: "libaudioproxy_shim",
+    srcs: ["libaudioproxy/libaudioproxy_shim.cpp"],
+    proprietary: true,
+}
+
+cc_library_shared {
     name: "libavservices_minijail_vendor",
     shared_libs: ["libavservices_minijail"],
     vendor: true,
@@ -237,6 +264,13 @@ cc_defaults {
         "libgui/GraphicBufferProducer.cpp",
         "libgui/SurfaceComposerClient.cpp",
     ],
+}
+
+cc_library_shared {
+    name: "libaudioclient_shim",
+    shared_libs: ["libaudioclient", "libutils", "liblog"],
+    header_libs: ["libmedia_headers"],
+    srcs: ["libaudioclient/AudioTrack.cpp"],
 }
 
 cc_library {
@@ -288,11 +322,14 @@ cc_prebuilt_library_shared {
 cc_library {
     name: "libbinder_shim",
     shared_libs: ["libbinder", "libutils"],
+    header_libs: ["libbinder_headers"],
     srcs: [
         "libbinder/IServiceManager.cpp",
+        "libbinder/OS_android.cpp",
         "libbinder/PermissionCache.cpp",
     ],
-    vendor: true
+    version_script: "libbinder/libbinder.map",
+    vendor_available: true
 }
 
 cc_library {
@@ -384,6 +421,14 @@ cc_library {
         "libcutils/strdup8to16.cpp",
     ],
     vendor_available: true,
+}
+
+cc_library {
+    name: "libdemangle",
+    vendor_available: true,
+    whole_static_libs: [
+        "libc++demangle",
+    ]
 }
 
 cc_library {
@@ -536,6 +581,24 @@ cc_prebuilt_library_shared {
     check_elf_files: false,
 }
 
+cc_prebuilt_library_shared {
+    name: "libutils-v33",
+    vendor: true,
+    strip: {
+        none: true,
+    },
+    target: {
+        android_arm: {
+            srcs: ["vndk/v33/arm/libutils-v33.so"],
+        },
+        android_arm64: {
+            srcs: ["vndk/v33/arm64/libutils-v33.so"],
+        },
+    },
+    compile_multilib: "both",
+    check_elf_files: false,
+}
+
 cc_library_shared {
     name: "libutils_shim",
     shared_libs: ["libutils"],
@@ -550,6 +613,14 @@ cc_library {
         "libip_checksum",
     ],
     vendor_available: true,
+}
+
+cc_library {
+    name: "libnativehelper_shim",
+    version_script: "libnativehelper/libnativehelper.map",
+    srcs: [
+        "libnativehelper/libnativehelper.cpp",
+    ],
 }
 
 cc_library_shared {
