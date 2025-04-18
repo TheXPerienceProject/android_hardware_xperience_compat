@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2022-2023 The LineageOS Project
+// Copyright (C) 2022-2025 The LineageOS Project
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -411,6 +411,25 @@ cc_library {
     vendor_available: true,
 }
 
+cc_prebuilt_library_shared {
+    name: "libcutils-v29",
+    system_ext_specific: true,
+    vendor_available: true,
+    strip: {
+        none: true,
+    },
+    target: {
+        android_arm: {
+            srcs: ["vndk/v29/arm/libcutils-v29.so"],
+        },
+        android_arm64: {
+            srcs: ["vndk/v29/arm64/libcutils-v29.so"],
+        },
+    },
+    compile_multilib: "both",
+    check_elf_files: false,
+}
+
 cc_library {
     name: "libcutils_shim",
     shared_libs: [
@@ -495,6 +514,16 @@ cc_library {
 }
 
 cc_library {
+    name: "libjsoncpp_shim",
+    srcs: [
+        "libjsoncpp/json_value.cpp",
+    ],
+    shared_libs: ["libjsoncpp"],
+    compile_multilib: "both",
+    vendor: true,
+}
+
+cc_library {
     name: "libmeminfo_shim",
     shared_libs: ["libmeminfo"],
     srcs: [
@@ -572,9 +601,11 @@ cc_prebuilt_library_shared {
     target: {
         android_arm: {
             srcs: ["vndk/v32/arm/libutils-v32.so"],
+            shared_libs: ["libprocessgroup_shim"],
         },
         android_arm64: {
             srcs: ["vndk/v32/arm64/libutils-v32.so"],
+            shared_libs: ["libprocessgroup_shim"],
         },
     },
     compile_multilib: "both",
@@ -607,6 +638,19 @@ cc_library_shared {
     vendor_available: true,
 }
 
+cc_library_shared {
+    name: "libwfdservice_shim",
+    shared_libs: [
+        "android.media.audio.common.types-V4-cpp",
+        "audioclient-types-aidl-cpp",
+        "libaudioclient",
+        "libaudiofoundation",
+        "libutils",
+    ],
+    srcs: ["libwfdservice/libwfdservice_shim.cpp"],
+    system_ext_specific: true,
+}
+
 cc_library {
     name: "libip_checksum_shim",
     whole_static_libs: [
@@ -621,6 +665,17 @@ cc_library {
     srcs: [
         "libnativehelper/libnativehelper.cpp",
     ],
+}
+
+cc_library_shared {
+    name: "libprocessgroup_shim",
+    srcs: [
+        "libprocessgroup/processgroup.cpp",
+    ],
+    shared_libs: [
+        "libprocessgroup",
+    ],
+    vendor: true,
 }
 
 cc_library_shared {
@@ -650,6 +705,42 @@ cc_library_shared {
     srcs: ["libcomparetf2/comparetf2.c"],
     compile_multilib: "64",
     vendor: true,
+}
+
+cc_prebuilt_library_shared {
+    name: "libprotobuf-cpp-full-v29",
+    vendor: true,
+    strip: {
+        none: true,
+    },
+    target: {
+        android_arm: {
+            srcs: ["vndk/v29/arm/libprotobuf-cpp-full-v29.so"],
+        },
+        android_arm64: {
+            srcs: ["vndk/v29/arm64/libprotobuf-cpp-full-v29.so"],
+        },
+    },
+    compile_multilib: "both",
+    check_elf_files: false,
+}
+
+cc_prebuilt_library_shared {
+    name: "libprotobuf-cpp-lite-v29",
+    vendor: true,
+    strip: {
+        none: true,
+    },
+    target: {
+        android_arm: {
+            srcs: ["vndk/v29/arm/libprotobuf-cpp-lite-v29.so"],
+        },
+        android_arm64: {
+            srcs: ["vndk/v29/arm64/libprotobuf-cpp-lite-v29.so"],
+        },
+    },
+    compile_multilib: "both",
+    check_elf_files: false,
 }
 
 cc_prebuilt_library_shared {
