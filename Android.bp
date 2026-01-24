@@ -116,6 +116,7 @@ cc_library {
     name: "libbase_shim",
     shared_libs: ["libbase"],
     srcs: [
+        "libbase/file.cpp",
         "libbase/logging.cpp",
         "libbase/strings.cpp",
     ],
@@ -421,7 +422,7 @@ cc_prebuilt_library_shared {
         none: true,
     },
     shared_libs: [
-        "android.hardware.graphics.common-V6-ndk",
+        "android.hardware.graphics.common-V7-ndk",
         "android.hardware.graphics.allocator-V2-ndk",
         "android.hardware.graphics.allocator@2.0",
         "android.hardware.graphics.allocator@3.0",
@@ -574,11 +575,80 @@ cc_library_shared {
     vendor_available: true,
 }
 
+cc_prebuilt_library_shared {
+    name: "libtinyxml2-v34",
+    vendor: true,
+    strip: {
+        none: true,
+    },
+    shared_libs: [
+        "liblog",
+        "libc++",
+        "libc",
+        "libm",
+        "libdl",
+    ],
+    target: {
+        android_arm: {
+            srcs: ["vndk/v34/arm/libtinyxml2-v34.so"],
+        },
+        android_arm64: {
+            srcs: ["vndk/v34/arm64/libtinyxml2-v34.so"],
+        },
+    },
+    compile_multilib: "both",
+}
+
 cc_library_shared {
     name: "libcomparetf2_shim",
     srcs: ["libcomparetf2/comparetf2.c"],
     compile_multilib: "64",
     vendor: true,
+}
+
+cc_prebuilt_library_shared {
+    name: "libprotobuf-cpp-full-21.7",
+    system_ext_specific: true,
+    vendor_available: true,
+    strip: {
+        none: true,
+    },
+    shared_libs: [
+        "libc++",
+        "liblog",
+        "libz",
+    ],
+    target: {
+        android_arm: {
+            srcs: ["libprotobuf/arm/libprotobuf-cpp-full-21.7.so"],
+        },
+        android_arm64: {
+            srcs: ["libprotobuf/arm64/libprotobuf-cpp-full-21.7.so"],
+        },
+    },
+    compile_multilib: "both",
+}
+
+cc_prebuilt_library_shared {
+    name: "libprotobuf-cpp-lite-21.7",
+    system_ext_specific: true,
+    vendor_available: true,
+    strip: {
+        none: true,
+    },
+    shared_libs: [
+        "libc++",
+        "liblog",
+    ],
+    target: {
+        android_arm: {
+            srcs: ["libprotobuf/arm/libprotobuf-cpp-lite-21.7.so"],
+        },
+        android_arm64: {
+            srcs: ["libprotobuf/arm64/libprotobuf-cpp-lite-21.7.so"],
+        },
+    },
+    compile_multilib: "both",
 }
 
 cc_prebuilt_library_shared {

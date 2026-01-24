@@ -21,6 +21,7 @@ for vndk_version, libs in {
     ],
     "v34": [
         "libaudioroute",
+        "libtinyxml2",
         "libui",
     ],
 }.items():
@@ -63,7 +64,7 @@ for vndk_version, libs in {
                                 PATCHELF_PATH,
                                 "--replace-needed",
                                 "android.hardware.graphics.common-V4-ndk.so",
-                                "android.hardware.graphics.common-V6-ndk.so",
+                                "android.hardware.graphics.common-V7-ndk.so",
                                 lib_dest,
                             ]
                         )
