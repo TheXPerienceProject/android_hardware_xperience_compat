@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2022-2025 The LineageOS Project
+// Copyright (C) 2022-2026 The LineageOS Project
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -389,6 +389,36 @@ cc_library {
     vendor: true,
 }
 
+cc_defaults {
+    name: "libMegviiFacepp_defaults",
+    vendor: true,
+    srcs: [
+        "megvii/megvii.c",
+    ],
+}
+
+cc_library_shared {
+    name: "libMegviiFacepp-0.5.2",
+    defaults: ["libMegviiFacepp_defaults"],
+}
+
+cc_library_shared {
+    name: "libMegviiBeautyBody",
+    defaults: ["libMegviiFacepp_defaults"],
+    vendor: true,
+}
+
+cc_library_shared {
+    name: "libmegface",
+    defaults: ["libMegviiFacepp_defaults"],
+    vendor: true,
+}
+
+cc_library_shared {
+    name: "libmegskeleton",
+    vendor: true,
+}
+
 cc_library {
     name: "libmeminfo_shim",
     shared_libs: ["libmeminfo"],
@@ -764,7 +794,8 @@ cc_prebuilt_library_shared {
 
 cc_prebuilt_library_shared {
     name: "libstagefright_foundation-v33",
-    vendor: true,
+    system_ext_specific: true,
+    vendor_available: true,
     strip: {
         none: true,
     },
@@ -783,4 +814,13 @@ cc_prebuilt_library_shared {
         },
     },
     compile_multilib: "both",
+}
+
+java_library {
+    name: "telephony-common-stub",
+    installable: true,
+
+    srcs: [
+        "frameworks/telephony-common-stub/src/**/*.java",
+    ],
 }
