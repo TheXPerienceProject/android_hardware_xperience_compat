@@ -72,6 +72,17 @@ cc_library_shared {
     vendor: true,
 }
 
+cc_library_shared {
+    name: "libbluetooth_audio_session_aidl_shim",
+    shared_libs: [
+        "libbluetooth_audio_session_aidl",
+    ],
+    srcs: [
+        "libbluetooth_audio_session_aidl/BluetoothAudioSession.cpp",
+    ],
+    vendor: true,
+}
+
 cc_defaults {
     name: "libgui_shim_defaults",
     shared_libs: ["libutils"],
@@ -571,7 +582,7 @@ cc_library_shared {
 cc_library_shared {
     name: "libwfdservice_shim",
     shared_libs: [
-        "android.media.audio.common.types-V4-cpp",
+        "android.media.audio.common.types-V5-cpp",
         "audioclient-types-aidl-cpp",
         "libaudioclient",
         "libaudiofoundation",
@@ -654,11 +665,80 @@ cc_prebuilt_library_shared {
     compile_multilib: "both",
 }
 
+cc_prebuilt_library_shared {
+    name: "libtinyxml2-v36",
+    vendor: true,
+    strip: {
+        none: true,
+    },
+    shared_libs: [
+        "liblog",
+        "libc++",
+        "libc",
+        "libm",
+        "libdl",
+    ],
+    target: {
+        android_arm: {
+            srcs: ["vndk/v36/arm/libtinyxml2-v36.so"],
+        },
+        android_arm64: {
+            srcs: ["vndk/v36/arm64/libtinyxml2-v36.so"],
+        },
+    },
+    compile_multilib: "both",
+}
+
 cc_library_shared {
     name: "libcomparetf2_shim",
     srcs: ["libcomparetf2/comparetf2.c"],
     compile_multilib: "64",
     vendor: true,
+}
+
+cc_prebuilt_library_shared {
+    name: "libprotobuf-cpp-full-3.9.1-vendorcompat",
+    stem: "libprotobuf-cpp-full-3.9.1",
+    ignore_max_page_size: true,
+    vendor: true,
+    strip: {
+        none: true,
+    },
+    shared_libs: [
+        "libc++",
+        "liblog",
+        "libz",
+    ],
+    target: {
+        android_arm64: {
+            srcs: ["libprotobuf/arm64/libprotobuf-cpp-full-3.9.1.so"],
+        },
+        android_arm: {
+            srcs: ["libprotobuf/arm/libprotobuf-cpp-full-3.9.1.so"],
+        },
+    },
+}
+
+cc_prebuilt_library_shared {
+    name: "libprotobuf-cpp-lite-3.9.1-vendorcompat",
+    stem: "libprotobuf-cpp-lite-3.9.1",
+    ignore_max_page_size: true,
+    vendor: true,
+    strip: {
+        none: true,
+    },
+    shared_libs: [
+        "libc++",
+        "liblog",
+    ],
+    target: {
+        android_arm64: {
+            srcs: ["libprotobuf/arm64/libprotobuf-cpp-lite-3.9.1.so"],
+        },
+        android_arm: {
+            srcs: ["libprotobuf/arm/libprotobuf-cpp-lite-3.9.1.so"],
+        },
+    },
 }
 
 cc_prebuilt_library_shared {
@@ -704,6 +784,78 @@ cc_prebuilt_library_shared {
         },
     },
     compile_multilib: "both",
+}
+
+cc_prebuilt_library_shared {
+    name: "libprotobuf-cpp-full-21.12-vendorcompat",
+    stem: "libprotobuf-cpp-full-21.12",
+    vendor: true,
+    strip: {
+        none: true,
+    },
+    shared_libs: [
+        "libc++",
+        "liblog",
+        "libz",
+    ],
+    target: {
+        android_arm: {
+            srcs: ["libprotobuf/arm/libprotobuf-cpp-full-21.12.so"],
+        },
+        android_arm64: {
+            srcs: select(soong_config_variable("lineageVarsPlugin", "TARGET_MAX_PAGE_SIZE_SUPPORTED"), {
+                "16384": ["libprotobuf/arm64_16k/libprotobuf-cpp-full-21.12.so"],
+                default: ["libprotobuf/arm64/libprotobuf-cpp-full-21.12.so"],
+            }),
+        },
+    },
+}
+
+cc_prebuilt_library_shared {
+    name: "libprotobuf-cpp-lite-21.12-vendorcompat",
+    stem: "libprotobuf-cpp-lite-21.12",
+    vendor: true,
+    strip: {
+        none: true,
+    },
+    shared_libs: [
+        "libc++",
+        "liblog",
+    ],
+    target: {
+        android_arm: {
+            srcs: ["libprotobuf/arm/libprotobuf-cpp-lite-21.12.so"],
+        },
+        android_arm64: {
+            srcs: select(soong_config_variable("lineageVarsPlugin", "TARGET_MAX_PAGE_SIZE_SUPPORTED"), {
+                "16384": ["libprotobuf/arm64_16k/libprotobuf-cpp-lite-21.12.so"],
+                default: ["libprotobuf/arm64/libprotobuf-cpp-lite-21.12.so"],
+            }),
+        },
+    },
+}
+
+cc_prebuilt_library_shared {
+    name: "libprotobuf-cpp-lite-21.12",
+    system_ext_specific: true,
+    strip: {
+        none: true,
+    },
+    shared_libs: [
+        "libc++",
+        "liblog",
+    ],
+    target: {
+        android_arm: {
+            srcs: ["libprotobuf/arm/libprotobuf-cpp-lite-21.12.so"],
+        },
+        android_arm64: {
+            srcs: select(soong_config_variable("lineageVarsPlugin", "TARGET_MAX_PAGE_SIZE_SUPPORTED"), {
+                "16384": ["libprotobuf/arm64_16k/libprotobuf-cpp-lite-21.12.so"],
+                default: ["libprotobuf/arm64/libprotobuf-cpp-lite-21.12.so"],
+            }),
+        },
+    },
 }
 
 cc_prebuilt_library_shared {
