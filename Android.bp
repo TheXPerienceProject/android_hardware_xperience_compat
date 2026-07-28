@@ -217,6 +217,7 @@ cc_library {
 cc_library {
     name: "libcamera_metadata_shim",
     shared_libs: ["libcamera_metadata"],
+    header_libs: ["libcutils_headers"],
     srcs: ["libcamera_metadata/camera_metadata.cpp"],
     vendor: true,
 }
@@ -330,6 +331,18 @@ cc_library {
     name: "libgui_shim_vendor",
     defaults: ["libgui_shim_defaults"],
     shared_libs: ["libgui_vendor"],
+    vendor: true,
+}
+
+cc_library_shared {
+    name: "libgui_buffer_shim_vendor",
+    defaults: ["libgui_shim_defaults"],
+    srcs: ["libgui/BufferItemConsumer.cpp"],
+    shared_libs: [
+        "libgui_vendor",
+        "libutils",
+    ],
+    compile_multilib: "64",
     vendor: true,
 }
 

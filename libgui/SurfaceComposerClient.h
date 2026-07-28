@@ -6,9 +6,14 @@
 
 #include <binder/IBinder.h>
 
+#include <sys/types.h>
+
 namespace android {
 namespace SurfaceComposerClient {
 
+sp<IBinder> createVirtualDisplay(const std::string& displayName, bool isSecure,
+                                 bool optimizeForPower, const std::string& uniqueId, uid_t ownerUid,
+                                 float requestedRefreshRate);
 sp<IBinder> createVirtualDisplay(const std::string& displayName, bool isSecure,
                                  bool optimizeForPower, const std::string& uniqueId,
                                  float requestedRefreshRate);
